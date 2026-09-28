@@ -23,15 +23,8 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# --- حقن كود الإعلانات التلقائية / Social Bar (الكود الأول) في الخلفية ---
-components.html(
-    '<script src="https://profitableratecpmnetwork.com"></script>',
-    height=0,
-    width=0
-)
-
 # ----------------------------------------------------------------------------
-# كود الإعلان الأصلي (يظهر أثناء مرحلة المعالجة والانتظار - الكود الثالث)
+# كود الإعلان (يظهر فقط أثناء مرحلة المعالجة)
 # ----------------------------------------------------------------------------
 AD_HTML = """
 <!DOCTYPE html>
@@ -44,26 +37,10 @@ AD_HTML = """
 </style>
 </head>
 <body>
-<script async="async" data-cfasync="false" src="https://profitableratecpmnetwork.com"></script>
+<script async="async" data-cfasync="false" src="https://pl31544583.profitableratecpmnetwork.com/0392b334f94fb470d7d8a56c8a5a4f67/invoke.js"></script>
 <div id="container-0392b334f94fb470d7d8a56c8a5a4f67"></div>
 </body>
 </html>
-"""
-
-# --- كود إعلان البانر الصغير 320x50 (الكود الثاني لصفحة النتائج) ---
-BANNER_320_50_HTML = """
-<div style="display: flex; justify-content: center; align-items: center; margin: 15px 0;">
-<script>
-  atOptions = {
-    'key' : '70516eba06f1e1fda87cfc8196030ea4',
-    'format' : 'iframe',
-    'height' : 50,
-    'width' : 320,
-    'params' : {}
-  };
-</script>
-<script src="https://highrevenueformat.com"></script>
-</div>
 """
 
 # ----------------------------------------------------------------------------
@@ -71,7 +48,7 @@ BANNER_320_50_HTML = """
 # ----------------------------------------------------------------------------
 CSS = """
 <style>
-@import url('https://googleapis.com');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap');
 
 :root {
   --ink: #12262a;
@@ -174,6 +151,8 @@ table.nutri td.val { font-weight: 700; white-space: nowrap; }
 """
 
 st.markdown(CSS, unsafe_allow_html=True)
+
+
 # ----------------------------------------------------------------------------
 # شكل النتيجة المطلوبة من Gemini
 # ----------------------------------------------------------------------------
@@ -412,11 +391,6 @@ elif stage == "done":
         st.warning("لم نجد طعامًا في هذه الصورة. جرّب صورة أوضح للوجبة من زاوية أقرب.")
     else:
         st.markdown(result_html(result), unsafe_allow_html=True)
-        
-        # --- إضافة إعلان البانر 320x50 أسفل جدول النتيجة مباشرة (الكود الثاني) ---
-        st.markdown('<div class="ad-label" style="text-align:center;">إعلان</div>', unsafe_allow_html=True)
-        components.html(BANNER_320_50_HTML, height=70, scrolling=False)
-        
         st.markdown(
             '<div class="disclaimer">القيم تقديرية ولا تغني عن استشارة أخصائي تغذية.</div>',
             unsafe_allow_html=True,
