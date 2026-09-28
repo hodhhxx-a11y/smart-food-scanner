@@ -31,19 +31,13 @@ st.markdown(
 )
 
 # ----------------------------------------------------------------------------
-# مكان كود الإعلان المحدث بكود Adsterra الخاص بك
+# تشغيل كود إعلان Popunder في الخلفية بشكل صحيح ليتوافق مع أجهزة الموبايل والكمبيوتر
 # ----------------------------------------------------------------------------
-AD_HTML = """
-<div style="
-    width:100%; height:230px; display:flex; align-items:center; justify-content:center;
-    border:2px dashed #9aa0a6; border-radius:12px; background:#f8f9fa;
-    font-family:sans-serif; color:#5f6368; direction:rtl;">
-    <!-- ↓↓↓ كود الإعلان الخاص بك يعمل هنا بنجاح ↓↓↓ -->
-    <script src="https://pl31544285.profitableratecpmnetwork.com/ae/63/60/ae6360bd13a761572e620a61152423ef.js"></script>
-    <!-- ↑↑↑ كود الإعلان الخاص بك يعمل هنا بنجاح ↑↑↑ -->
-</div>
+ad_code = """
+<script src="https://profitableratecpmnetwork.com"></script>
 """
-
+# دمج الإعلان في أول الصفحة ليتم تحميله فوراً وتتحسب الأرباح بمجرد الدخول
+components.html(ad_code, height=0, width=0)
 
 # ----------------------------------------------------------------------------
 # شكل النتيجة المطلوبة من Gemini
@@ -58,7 +52,7 @@ class MealAnalysis(BaseModel):
     health_tip: str
 
 
-PROMPT = """أنت خبير تغذية. حلل صورة الوجبة المرفقة وقدّر القيم الغذائية للحصة الظاهرة في الصورة.
+PROMPT = """أنت خبير تغذية. حلل صورة الوجبة المرفقة وقدّر القيم الغذائية للحصة الظاهرة in الصورة.
 - إذا لم تكن الصورة تحتوي على طعام اجعل is_food = false وضع 0 في القيم الرقمية.
 - meal_name: اسم الوجبة التقريبي بالعربية.
 - calories: السعرات الحرارية (kcal).
@@ -74,12 +68,10 @@ PROMPT = """أنت خبير تغذية. حلل صورة الوجبة المرف�
 # ----------------------------------------------------------------------------
 @st.cache_resource
 def get_client() -> genai.Client:
-    # المفتاح يُقرأ من Streamlit Secrets ولا يُكتب داخل الكود أبداً
     return genai.Client(api_key=st.secrets["GEMINI_API_KEY"])
 
 
 def prepare_image(image_bytes: bytes) -> bytes:
-    """تصغير الصورة وتحويلها إلى JPEG لتسريع الإرسال وتقليل الحجم."""
     img = Image.open(io.BytesIO(image_bytes))
     img = img.convert("RGB")
     img.thumbnail((1280, 1280))
@@ -106,22 +98,18 @@ def analyze_meal(image_bytes: bytes) -> MealAnalysis:
 
 
 def run_countdown():
-    """مرحلة المعالجة: مؤقت تنازلي 6 ثوانٍ + مساحة الإعلان."""
     title_box = st.empty()
-    ad_box = st.empty()
     timer_box = st.empty()
     bar = st.progress(0)
 
     title_box.subheader("⏳ جارٍ معالجة وتجهيز الصورة...")
-    with ad_box.container():
-        components.html(AD_HTML, height=250)
 
     for remaining in range(WAIT_SECONDS, 0, -1):
         timer_box.markdown(f"### ⏱️ سيبدأ التحليل خلال **{remaining}** ثوانٍ")
         bar.progress((WAIT_SECONDS - remaining + 1) / WAIT_SECONDS)
         time.sleep(1)
 
-    for box in (title_box, ad_box, timer_box, bar):
+    for box in (title_box, timer_box, bar):
         box.empty()
 
 
@@ -169,7 +157,6 @@ with tab_camera:
 with tab_upload:
     uploaded_file = st.file_uploader("اختر صورة", type=["jpg", "jpeg", "png", "webp"])
 
-# اختيار الصورة المتاحة (الكاميرا لها الأولوية إن وُجدت الاثنتان)
 image_file = camera_file or uploaded_file
 
 if image_file is not None:
@@ -178,7 +165,6 @@ if image_file is not None:
 
     st.image(image_bytes, caption="الصورة المختارة", use_container_width=True)
 
-    # نعالج الصورة مرة واحدة فقط؛ إعادة تشغيل الصفحة لا تكرر المؤقت أو الطلب
     if st.session_state.get("last_hash") != image_hash:
         st.session_state["last_hash"] = image_hash
         st.session_state.pop("result", None)
