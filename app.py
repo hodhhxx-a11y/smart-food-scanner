@@ -195,19 +195,28 @@ def prepare_image(image_bytes: bytes) -> bytes:
 
 
 def analyze_meal(image_bytes: bytes) -> MealAnalysis:
-    response = get_client().models.generate_content(
-        model=MODEL_NAME,
-        contents=[
-            types.Part.from_bytes(data=prepare_image(image_bytes), mime_type="image/jpeg"),
-            PROMPT,
-        ],
-        config=types.GenerateContentConfig(
-            response_mime_type="application/json",
-            response_schema=MealAnalysis,
-            temperature=0.2,
-        ),
-    )
-    return MealAnalysis.model_validate_json(response.text)
+    client = get_client(load_api_key())
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            response = client.models.generate_content(
+                model=MODEL_NAME,
+                contents=[
+                    types.Part.from_bytes(data=image_bytes, mime_type="image/jpeg"),
+                    PROMPT,
+                ],
+                config=types.GenerateContentConfig(
+                    response_mime_type="application/json",
+                    response_schema=MealAnalysis,
+                    temperature=0.2,
+                ),
+            )
+            return MealAnalysis.model_validate_json(response.text)
+        except Exception as e:
+            if attempt == max_retries - 1:
+                raise e
+            time.sleep(2) # ينتظر ثواني قليلة ويعيد المحاولة لو السيرفر مشغول
+
 
 
 def render_header():
