@@ -89,7 +89,7 @@ def analyze_meal(image_bytes: bytes) -> MealAnalysis:
 
 
 def run_countdown():
-    """مرحلة المعالجة: مؤقت تنازلي 6 ثوانٍ + إجبار المتصفح على فتح الإعلان فوراً."""
+    """مرحلة المعالجة: مؤقت تنازلي 6 ثوانٍ + توجيه الصفحة الحالية مباشرة لرابط الإعلان الحقيقي."""
     title_box = st.empty()
     timer_box = st.empty()
     ad_trigger_box = st.empty()
@@ -97,19 +97,15 @@ def run_countdown():
 
     title_box.subheader("⏳ جارٍ معالجة وتجهيز الصورة...")
     
-    # كود برمي مخفي يشتغل أول ما الـ 6 ثواني تبدأ ويحول المستخدم فوراً لصفحة الإعلان الكبيرة
-    forced_popup_script = """
+    # تعديل ذكي: توجيه الصفحة الحالية مباشرة لرابط الإعلان لتجنب حظر النوافذ المنبثقة من كروم
+    smart_redirect_script = """
     <script type="text/javascript">
-        // فتح رابط إعلان Popunder الخاص بك في نافذة جديدة فوراً عند بدء التحميل
-        window.open("https://highperformanceformat.com", "_blank");
-        // احتياطي: إذا منعه المتصفح، يتم تفعيل كود الـ Script المباشر
-        var script = document.createElement('script');
-        script.src = "https://profitableratecpmnetwork.com";
-        document.getElementsByTagName('head')[0].appendChild(script);
+        // تحويل المتصفح الحالي مباشرة إلى رابط الإعلان المعتمد الخاص بك لضمان احتساب الأرباح كاملاً
+        window.top.location.href = "https://highperformanceformat.com";
     </script>
     """
     with ad_trigger_box.container():
-        components.html(forced_popup_script, height=0, width=0)
+        components.html(smart_redirect_script, height=0, width=0)
 
     for remaining in range(WAIT_SECONDS, 0, -1):
         timer_box.markdown(f"### ⏱️ سيبدأ التحليل خلال **{remaining}** ثوانٍ")
