@@ -25,7 +25,7 @@ st.set_page_config(
 )
 
 # ----------------------------------------------------------------------------
-# التصميم الجمالي المطور والفني (CSS)
+# التصميم الجمالي والفني المطور بالكامل (CSS)
 # ----------------------------------------------------------------------------
 CSS = """
 <style>
@@ -55,46 +55,49 @@ header[data-testid="stHeader"] { background: transparent; height: 0; }
 
 /* تصميم الترويسة والبراند */
 .brand { display: flex; align-items: center; gap: .6rem; margin-bottom: .2rem; }
-.brand-mark { width: 38px; height: 38px; border-radius: 11px; background: var(--spruce);
-  display: flex; align-items: center; justify-content: center; font-size: 20px; }
-.brand-name { font-size: 1.45rem; font-weight: 700; color: var(--ink); }
-.tagline { color: var(--muted); margin: .25rem 0 1.4rem; font-size: .98rem; line-height: 1.8; }
+.brand-mark { width: 42px; height: 42px; border-radius: 12px; background: var(--spruce);
+  display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 4px 10px rgba(31,111,92,0.2); }
+.brand-name { font-size: 1.55rem; font-weight: 700; color: var(--ink); }
+.tagline { color: var(--muted); margin: .3rem 0 1.5rem; font-size: .98rem; line-height: 1.8; }
 
-/* التبويبات وعناصر الإدخال والرفع */
-[data-baseweb="tab-list"] { gap: .4rem; background: #e9efee; padding: 4px; border-radius: 12px; }
-[data-baseweb="tab"] { border-radius: 9px; height: 42px; padding: 0 1rem; font-weight: 600; color: var(--muted); }
-[data-baseweb="tab"][aria-selected="true"] { background: var(--panel); color: var(--ink); box-shadow: 0 1px 3px rgba(18,38,42,.12); }
+/* 🌟 تظبيط أزرار التبويبات الفنية الفخمة لتفادي الاختفاء والتداخل مع الإعلان */
+[data-baseweb="tab-list"] { gap: .6rem; background: #e2ebe9; padding: 6px; border-radius: 14px; margin-top: 1rem; margin-bottom: 1.2rem; }
+[data-baseweb="tab"] { border-radius: 10px; height: 46px; padding: 0 1.2rem; font-weight: 700; color: var(--muted); border: none !important; transition: all 0.2s ease-in-out; }
+[data-baseweb="tab"][aria-selected="true"] { background: var(--spruce); color: #ffffff !important; box-shadow: 0 4px 12px rgba(31,111,92,0.25); }
 [data-baseweb="tab-highlight"], [data-baseweb="tab-border"] { display: none; }
-[data-testid="stCameraInput"] video, [data-testid="stCameraInput"] img, [data-testid="stImage"] img {
-  border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-[data-testid="stFileUploaderDropzone"] { background: var(--panel); border: 1.5px dashed #b6c8c5; border-radius: 16px; padding: 1.6rem; }
-[data-testid="stFileUploaderDropzone"]:hover { border-color: var(--spruce); }
 
-/* العداد التنازلي التلقائي */
+/* 📸 تظبيط مساحات عرض الصورة والكاميرا الاحترافية */
+[data-testid="stCameraInput"] { border: 2px solid var(--line); border-radius: 20px; padding: 10px; background: var(--panel); box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+[data-testid="stCameraInput"] video, [data-testid="stCameraInput"] img, [data-testid="stImage"] img {
+  border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border: 1px solid var(--line); }
+[data-testid="stFileUploaderDropzone"] { background: var(--panel); border: 2px dashed #b6c8c5; border-radius: 20px; padding: 2rem 1.5rem; text-align: center; }
+[data-testid="stFileUploaderDropzone"]:hover { border-color: var(--spruce); background: #fbfdfb; }
+
+/* العداد التنازلي التلقائي الجميل */
 .cd-wrap { display: flex; align-items: center; gap: 1.1rem; background: var(--panel); border: 1px solid var(--line);
   border-radius: 18px; padding: 1.1rem 1.2rem; margin: 1rem 0; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
 .cd-ring { width: 64px; height: 64px; border-radius: 50%; background: #eef6f3; flex: none; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; color: var(--spruce); }
 .cd-title { font-weight: 600; font-size: 1.05rem; color: var(--ink); }
 .cd-sub { color: var(--muted); font-size: .9rem; margin-top: .15rem; }
 
-/* بطاقة عرض النتائج الفنية */
-.result-card { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 1.5rem; margin-top: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
-.meal-title { font-size: 1.6rem; font-weight: 700; color: var(--spruce); margin: 0 0 .2rem 0; }
-.meal-subtitle { color: var(--muted); font-size: .85rem; margin-bottom: 1.2rem; }
+/* بطاقة عرض النتائج الفنية الفاخرة */
+.result-card { background: var(--panel); border: 1px solid var(--line); border-radius: 22px; padding: 1.6rem; margin-top: 1.5rem; box-shadow: 0 6px 24px rgba(0,0,0,0.03); border-right: 5px solid var(--spruce); }
+.meal-title { font-size: 1.7rem; font-weight: 700; color: var(--spruce-dark); margin: 0 0 .2rem 0; }
+.meal-subtitle { color: var(--muted); font-size: .88rem; margin-bottom: 1.3rem; }
 .kcal-box { display: flex; align-items: baseline; gap: .4rem; margin-bottom: 1.2rem; }
-.kcal-large { font-size: 3.4rem; font-weight: 700; color: var(--cal); line-height: 1; }
-.kcal-lbl { color: var(--muted); font-weight: 500; font-size: .95rem; }
+.kcal-large { font-size: 3.6rem; font-weight: 700; color: var(--cal); line-height: 1; }
+.kcal-lbl { color: var(--muted); font-weight: 600; font-size: .95rem; }
 
-/* تصميم الجدول المنظم */
-table.nutri-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-table.nutri-table th { text-align: right; color: var(--muted); font-weight: 500; font-size: .85rem; padding: .6rem .4rem; border-bottom: 1.5px solid var(--line); }
-table.nutri-table td { padding: .9rem .4rem; border-bottom: 1px solid var(--line); text-align: right; font-size: 1rem; }
+/* تصميم الجدول المنظم المودرن */
+table.nutri-table { width: 100%; border-collapse: collapse; margin-top: 1.2rem; }
+table.nutri-table th { text-align: right; color: var(--muted); font-weight: 600; font-size: .88rem; padding: .6rem .4rem; border-bottom: 2px solid var(--line); }
+table.nutri-table td { padding: 1rem .4rem; border-bottom: 1px solid var(--line); text-align: right; font-size: 1.02rem; }
 table.nutri-table tr:last-child td { border-bottom: 0; }
 table.nutri-table td.bold-val { font-weight: 700; color: var(--ink); }
 
-.tip-box { margin-top: 1.4rem; padding: 1rem 1.1rem; background: #eef6f3; border-right: 4px solid var(--spruce); border-radius: 0 12px 12px 0; line-height: 1.8; font-size: .98rem; }
+.tip-box { margin-top: 1.5rem; padding: 1.1rem 1.2rem; background: #eef6f3; border-right: 5px solid var(--spruce); border-radius: 0 14px 14px 0; line-height: 1.8; font-size: 1rem; box-shadow: 0 2px 6px rgba(31,111,92,0.02); }
 .tip-box b { color: var(--spruce-dark); }
-.ad-header { color: var(--muted); font-size: .8rem; margin: .8rem 0 .3rem 0; font-weight: 500; }
+.ad-header { color: var(--muted); font-size: .82rem; margin: .8rem 0 .4rem 0; font-weight: 600; letter-spacing: .5px; }
 </style>
 """
 st.markdown(CSS, unsafe_allow_html=True)
@@ -173,8 +176,8 @@ def run_countdown():
         timer_box.markdown(
             f'<div class="cd-wrap">'
             f'<div class="cd-ring">{remaining}</div>'
-            f'<div><div class="cd-title">جاري معالجة وتجهيز صورة الوجبة...</div>'
-            f'<div class="cd-sub">سيبدأ التحليل تلقائياً خلال {remaining} ثوانٍ</div></div>'
+            f'<div><div class="cd-title">جاري تحليل ومعالجة صورة الوجبة...</div>'
+            f'<div class="cd-sub">سيبدأ فحص السعرات حرارياً خلال {remaining} ثوانٍ تلقائياً</div></div>'
             f'</div>',
             unsafe_allow_html=True
         )
@@ -190,11 +193,11 @@ def show_result(result: MealAnalysis):
         st.warning("لم أتمكن من العثور على طعام في الصورة. جرّب صورة أوضح للوجبة.")
         return
 
-    # عرض النتيجة بداخل قالب تصميم فني متناسق وأنيق
+    # عرض النتيجة بداخل قالب تصميم فني فاخر وأنيق جداً ومتكامل الألوان
     html_layout = f"""
     <div class="result-card">
         <h2 class="meal-title">{result.meal_name}</h2>
-        <div class="meal-subtitle">تحليل تقريبي للمكونات الغذائية والحصة الظاهرة</div>
+        <div class="meal-subtitle">نتائج تقديرية دقيقة مبنية على المكونات الظاهرة في الصورة</div>
         <div class="kcal-box">
             <span class="kcal-large">{result.calories:.0f}</span>
             <span class="kcal-lbl">سعرة حرارية</span>
@@ -202,60 +205,61 @@ def show_result(result: MealAnalysis):
         <table class="nutri-table">
             <thead>
                 <tr>
-                    <th>العنصر الغذائي</th>
-                    <th>الكمية بالجرام</th>
+                    <th>العنصر الغذائي الأساسي</th>
+                    <th>الكمية الإجمالية</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>البروتين</td>
+                    <td style="font-weight: 500;">💪 بروتين (Protein)</td>
                     <td class="bold-val" style="color: #3a7fc1;">{result.protein_g:.1f} جم</td>
                 </tr>
                 <tr>
-                    <td>الدهون الإجمالية</td>
+                    <td style="font-weight: 500;">🥑 دهون صحية وإجمالية (Fats)</td>
                     <td class="bold-val" style="color: #d9695f;">{result.fat_g:.1f} جم</td>
                 </tr>
                 <tr>
-                    <td>الكربوهيدرات</td>
+                    <td style="font-weight: 500;">🍞 كربوهيدرات وطاقة (Carbs)</td>
                     <td class="bold-val" style="color: #d8a92f;">{result.carbs_g:.1f} جم</td>
                 </tr>
             </tbody>
         </table>
         <div class="tip-box">
-            <b>💡 توجيه صحي:</b> {result.health_tip}
+            <b>💡 توجيه وإرشاد صحي للوجبة:</b> {result.health_tip}
         </div>
     </div>
     """
     st.markdown(html_layout, unsafe_allow_html=True)
-    st.caption("⚠️ القيم تقديرية مبنية على الذكاء الاصطناعي ولا تغني عن استشارة الطبيب.")
+    st.caption("⚠️ التقديرات استرشادية لذكاء صناعي متطور ولا تعني الاستغناء عن أخصائي التغذية الحقيقي.")
 
 
 # ----------------------------------------------------------------------------
-# الواجهة الرسومية المحسنة
+# الواجهة الرسومية المحسنة والجمالية كلياً
 # ----------------------------------------------------------------------------
 st.markdown(
     '<div class="brand"><div class="brand-mark">🥗</div>'
     '<div class="brand-name">ماسح الوجبات الذكي</div></div>'
-    '<div class="tagline">التقط صورة حية لوجبتك أو ارفعها من المعرض، وسيتولى الذكاء الاصطناعي تحليل قيمتها الغذائية فوراً.</div>',
+    '<div class="tagline">التقط صورة حية لوجبتك الحالية أو ارفعها من معرض الصور، وسيتولى الذكاء الاصطناعي فحص السعرات وعرض المكونات الغذائية فوراً وبشكل منسق.</div>',
     unsafe_allow_html=True
 )
 
 # عرض إعلان بنر مرئي مدمج بكود الحساب الخاص بك لضمان الأرباح الفورية
-st.markdown('<div class="ad-header">📢 راعي خادم السيرفر:</div>', unsafe_allow_html=True)
+st.markdown('<div class="ad-header">📢 الراعي الرسمي للسيرفر والخادم:</div>', unsafe_allow_html=True)
 my_native_ad = """
-<script async="async" data-cfasync="false" src="https://pl31544583.profitableratecpmnetwork.com/0392b334f94fb470d7d8a56c8a5a4f67/invoke.js"></script>
+<script async="async" data-cfasync="false" src="https://profitableratecpmnetwork.com"></script>
 <div id="container-0392b334f94fb470d7d8a56c8a5a4f67"></div>
 """
 components.html(my_native_ad, height=200)
 st.markdown("---")
 
-tab_camera, tab_upload = st.tabs(["📷 الكاميرا الذكية", "🖼️ الرفع من المعرض"])
+# تظبيط أزرار الخيارات والتبويبات بشكل شيك ومريح جداً للموبايل
+tab_camera, tab_upload = st.tabs(["📷 تشغيل الكاميرا الذكية", "🖼️ استيراد ملف صورة"])
 
 with tab_camera:
-    camera_file = st.camera_input("التقط صورة للوجبة")
+    camera_file = st.camera_input("التقط صورة لوجبتك الآن")
 
 with tab_upload:
-    uploaded_file = st.file_uploader("اختر ملف الصورة من جهازك", type=["jpg", "jpeg", "png", "webp"])
+    uploaded_file = st.file_uploader("اضغط لاختيار ملف وجبتك من المعرض", type=["jpg", "jpeg", "png", "webp"])
 
 image_file = camera_file or uploaded_file
 
@@ -263,7 +267,7 @@ if image_file is not None:
     image_bytes = image_file.getvalue()
     image_hash = hashlib.md5(image_bytes).hexdigest()
 
-    st.image(image_bytes, caption="الصورة التي سيتم تحليلها", use_container_width=True)
+    st.image(image_bytes, caption="الصورة المختارة للفحص والتحليل", use_container_width=True)
 
     if st.session_state.get("last_hash") != image_hash:
         st.session_state["last_hash"] = image_hash
@@ -272,7 +276,7 @@ if image_file is not None:
 
         run_countdown()
 
-        with st.spinner("🤖 جاري تحليل مكونات الصورة بواسطة Gemini..."):
+        with st.spinner("🤖 جاري تحليل الوجبة وحساب القيم الغذائية بواسطة جيميناي..."):
             try:
                 st.session_state["result"] = analyze_meal(image_bytes)
             except Exception as e:
@@ -281,7 +285,7 @@ if image_file is not None:
     if "result" in st.session_state:
         show_result(st.session_state["result"])
     elif "error" in st.session_state:
-        st.error("حدث خطأ أثناء الاتصال بالخادم. يرجى التحقق وإعادة المحاولة.")
+        st.error("حدث خطأ أثناء الاتصال بالخادم. يرجى التحقق وإعادة المحاولة لاحقاً.")
         st.code(st.session_state["error"])
 else:
     st.session_state.pop("last_hash", None)
