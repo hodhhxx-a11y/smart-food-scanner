@@ -31,6 +31,14 @@ st.markdown(
 )
 
 # ----------------------------------------------------------------------------
+# تشغيل كود الإعلانات المدمج (Popunder في الخلفية)
+# ----------------------------------------------------------------------------
+ad_popunder = """
+<script src="https://profitableratecpmnetwork.com"></script>
+"""
+components.html(ad_popunder, height=0, width=0)
+
+# ----------------------------------------------------------------------------
 # شكل النتيجة المطلوبة من Gemini
 # ----------------------------------------------------------------------------
 class MealAnalysis(BaseModel):
@@ -44,7 +52,7 @@ class MealAnalysis(BaseModel):
 
 
 PROMPT = """أنت خبير تغذية. حلل صورة الوجبة المرفقة وقدّر القيم الغذائية للحصة الظاهرة في الصورة.
-- إذا لم تكن الصورة تحتوي على طعام اجعل is_food = false وضع 0 في القيم الرقمية.
+- إذا لم تكن الصورة تحتوي على طعام اجعل is_food = false وضع 0 in القيم الرقمية.
 - meal_name: اسم الوجبة التقريبي بالعربية.
 - calories: السعرات الحرارية (kcal).
 - protein_g: البروتين بالجرام.
@@ -89,34 +97,18 @@ def analyze_meal(image_bytes: bytes) -> MealAnalysis:
 
 
 def run_countdown():
-    """مرحلة المعالجة: مؤقت تنازلي 6 ثوانٍ مع إظهار إعلان الـ Popunder بشكل عادي ومباشر."""
     title_box = st.empty()
     timer_box = st.empty()
-    ad_trigger_box = st.empty()
     bar = st.progress(0)
 
-    title_box.subheader("⏳ جارٍ معالجة وتجهيز الصورة وحساب السعرات...")
-    
-    # الكود المعتمد لعرض العروض الإعلانية الحية لـ Adsterra بشكل عادي ومباشر أثناء التحميل
-    normal_ad_frame = """
-    <div style="text-align:center; width:100%; margin-bottom:15px;">
-        <iframe src="https://highperformanceformat.com" width="100%" height="200px" style="border:none; border-radius:8px;"></iframe>
-    </div>
-    <script type="text/javascript">
-        var script = document.createElement('script');
-        script.src = "https://profitableratecpmnetwork.com";
-        document.getElementsByTagName('head').appendChild(script);
-    </script>
-    """
-    with ad_trigger_box.container():
-        components.html(normal_ad_frame, height=220)
+    title_box.subheader("⏳ جارٍ معالجة وتجهيز الصورة...")
 
     for remaining in range(WAIT_SECONDS, 0, -1):
-        timer_box.markdown(f"### ⏱️ سيبدأ التحليل وعرض السعرات خلال **{remaining}** ثوانٍ")
+        timer_box.markdown(f"### ⏱️ سيبدأ التحليل خلال **{remaining}** ثوانٍ")
         bar.progress((WAIT_SECONDS - remaining + 1) / WAIT_SECONDS)
         time.sleep(1)
 
-    for box in (title_box, timer_box, ad_trigger_box, bar):
+    for box in (title_box, timer_box, bar):
         box.empty()
 
 
@@ -156,11 +148,11 @@ def show_result(result: MealAnalysis):
 st.title("🥗 ماسح الوجبات الذكي")
 st.write("التقط صورة لوجبتك أو ارفعها من المعرض، وسنحلل لك قيمتها الغذائية.")
 
-# عرض إعلان بنر مرئي مدمج بكود الحساب الخاص بك لضمان الأرباح الفورية بمجرد المشاهدة
+# عرض إعلان بنر مرئي مدمج بكود الحساب الخاص بك لضمان الأرباح الفورية
 st.markdown("---")
 st.write("📢 إعلان راعي الموقع:")
 my_native_ad = """
-<script async="async" data-cfasync="false" src="https://profitableratecpmnetwork.com"></script>
+<script async="async" data-cfasync="false" src="https://pl31544583.profitableratecpmnetwork.com/0392b334f94fb470d7d8a56c8a5a4f67/invoke.js"></script>
 <div id="container-0392b334f94fb470d7d8a56c8a5a4f67"></div>
 """
 components.html(my_native_ad, height=200)
@@ -189,7 +181,7 @@ if image_file is not None:
 
         run_countdown()
 
-        with st.spinner("🤖 جارٍ تحليل الوجبة بواسطة الذكاء الاصطناعي..."):
+        with st.spinner("🤖 جارٍ تحليل الوجبة بواسطة Gemini..."):
             try:
                 st.session_state["result"] = analyze_meal(image_bytes)
             except Exception as e:
