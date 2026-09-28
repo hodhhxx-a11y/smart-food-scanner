@@ -39,7 +39,7 @@ AD_HTML = """
     border:2px dashed #9aa0a6; border-radius:12px; background:#f8f9fa;
     font-family:sans-serif; color:#5f6368; direction:rtl;">
     <!-- ↓↓↓ ضع كود الإعلان هنا ↓↓↓ -->
-    مساحة إعلانية
+    <script src="https://pl31544285.profitableratecpmnetwork.com/ae/63/60/ae6360bd13a761572e620a61152423ef.js"></script>
     <!-- ↑↑↑ ضع كود الإعلان هنا ↑↑↑ -->
 </div>
 """
