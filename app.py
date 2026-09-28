@@ -13,7 +13,7 @@ from pydantic import BaseModel
 # ----------------------------------------------------------------------------
 # الإعدادات
 # ----------------------------------------------------------------------------
-MODEL_NAME = "gemini-1.5-flash"
+MODEL_NAME = "gemini-2.5-flash"
 WAIT_SECONDS = 6
 
 st.set_page_config(page_title="ماسح الوجبات الذكي", page_icon="🥗", layout="centered")
@@ -31,16 +31,16 @@ st.markdown(
 )
 
 # ----------------------------------------------------------------------------
-# مكان كود الإعلان — ضع كود الإعلان (AdSense أو غيره) داخل النص أدناه لاحقاً
+# مكان كود الإعلان المحدث بكود Adsterra الخاص بك
 # ----------------------------------------------------------------------------
 AD_HTML = """
 <div style="
     width:100%; height:230px; display:flex; align-items:center; justify-content:center;
     border:2px dashed #9aa0a6; border-radius:12px; background:#f8f9fa;
     font-family:sans-serif; color:#5f6368; direction:rtl;">
-    <!-- ↓↓↓ ضع كود الإعلان هنا ↓↓↓ -->
+    <!-- ↓↓↓ كود الإعلان الخاص بك يعمل هنا بنجاح ↓↓↓ -->
     <script src="https://pl31544285.profitableratecpmnetwork.com/ae/63/60/ae6360bd13a761572e620a61152423ef.js"></script>
-    <!-- ↑↑↑ ضع كود الإعلان هنا ↑↑↑ -->
+    <!-- ↑↑↑ كود الإعلان الخاص بك يعمل هنا بنجاح ↑↑↑ -->
 </div>
 """
 
