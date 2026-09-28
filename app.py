@@ -13,7 +13,7 @@ from pydantic import BaseModel
 # ----------------------------------------------------------------------------
 # الإعدادات العامة
 # ----------------------------------------------------------------------------
-MODEL_NAME = "gemini-2.5-flash"
+MODEL_NAME = "gemini-2.5-flash" 
 WAIT_SECONDS = 6
 
 st.set_page_config(
@@ -37,7 +37,7 @@ AD_HTML = """
 </style>
 </head>
 <body>
-<script async="async" data-cfasync="false" src="https://pl31544583.profitableratecpmnetwork.com/0392b334f94fb470d7d8a56c8a5a4f67/invoke.js"></script>
+<script async="async" data-cfasync="false" src="https://profitableratecpmnetwork.com"></script>
 <div id="container-0392b334f94fb470d7d8a56c8a5a4f67"></div>
 </body>
 </html>
@@ -48,7 +48,7 @@ AD_HTML = """
 # ----------------------------------------------------------------------------
 CSS = """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap');
+@import url('https://googleapis.com');
 
 :root {
   --ink: #12262a;
@@ -152,7 +152,6 @@ table.nutri td.val { font-weight: 700; white-space: nowrap; }
 
 st.markdown(CSS, unsafe_allow_html=True)
 
-
 # ----------------------------------------------------------------------------
 # شكل النتيجة المطلوبة من Gemini
 # ----------------------------------------------------------------------------
@@ -165,7 +164,6 @@ class MealAnalysis(BaseModel):
     carbs_g: float
     health_tip: str
 
-
 PROMPT = """أنت خبير تغذية. حلل صورة الوجبة المرفقة وقدّر القيم الغذائية للحصة الظاهرة في الصورة.
 - إذا لم تكن الصورة تحتوي على طعام اجعل is_food = false وضع 0 في القيم الرقمية.
 - meal_name: اسم الوجبة التقريبي بالعربية (قصير وواضح).
@@ -175,15 +173,12 @@ PROMPT = """أنت خبير تغذية. حلل صورة الوجبة المرف�
 - carbs_g: الكربوهيدرات بالجرام.
 - health_tip: نصيحة صحية سريعة في جملة أو جملتين بالعربية.
 هذه تقديرات تقريبية."""
-
-
 # ----------------------------------------------------------------------------
 # دوال مساعدة
 # ----------------------------------------------------------------------------
 @st.cache_resource
 def get_client() -> genai.Client:
-    # المفتاح يُقرأ من Streamlit Secrets ولا يُكتب داخل الكود
-    return genai.Client(api_key=st.secrets["GEMINI_API_KEY"])
+    return genai.Client(api_key="AQ.Ab8RN6JWRZI966GKqBew_h0Vokrt1GPGer_AyzcphzehiUwCYA")
 
 
 def prepare_image(image_bytes: bytes) -> bytes:
@@ -198,7 +193,7 @@ def analyze_meal(image_bytes: bytes) -> MealAnalysis:
     response = get_client().models.generate_content(
         model=MODEL_NAME,
         contents=[
-            types.Part.from_bytes(data=prepare_image(image_bytes), mime_type="image/jpeg"),
+            {"mime_type": "image/jpeg", "data": prepare_image(image_bytes)},
             PROMPT,
         ],
         config=types.GenerateContentConfig(
@@ -321,11 +316,6 @@ def reset_app():
 # ----------------------------------------------------------------------------
 # تدفق التطبيق
 # ----------------------------------------------------------------------------
-if "GEMINI_API_KEY" not in st.secrets:
-    render_header()
-    st.error("مفتاح Gemini غير مضبوط. أضف GEMINI_API_KEY في Streamlit Secrets ثم أعد تشغيل التطبيق.")
-    st.stop()
-
 stage = st.session_state.get("stage", "input")
 uid = st.session_state.get("uid", 0)
 
