@@ -31,14 +31,6 @@ st.markdown(
 )
 
 # ----------------------------------------------------------------------------
-# تشغيل كود الإعلانات المدمج (Popunder في الخلفية)
-# ----------------------------------------------------------------------------
-ad_popunder = """
-<script src="https://profitableratecpmnetwork.com"></script>
-"""
-components.html(ad_popunder, height=0, width=0)
-
-# ----------------------------------------------------------------------------
 # شكل النتيجة المطلوبة من Gemini
 # ----------------------------------------------------------------------------
 class MealAnalysis(BaseModel):
@@ -52,7 +44,7 @@ class MealAnalysis(BaseModel):
 
 
 PROMPT = """أنت خبير تغذية. حلل صورة الوجبة المرفقة وقدّر القيم الغذائية للحصة الظاهرة في الصورة.
-- إذا لم تكن الصورة تحتوي على طعام اجعل is_food = false وضع 0 in القيم الرقمية.
+- إذا لم تكن الصورة تحتوي على طعام اجعل is_food = false وضع 0 في القيم الرقمية.
 - meal_name: اسم الوجبة التقريبي بالعربية.
 - calories: السعرات الحرارية (kcal).
 - protein_g: البروتين بالجرام.
@@ -97,18 +89,34 @@ def analyze_meal(image_bytes: bytes) -> MealAnalysis:
 
 
 def run_countdown():
+    """مرحلة المعالجة: مؤقت تنازلي 6 ثوانٍ + إجبار المتصفح على فتح الإعلان فوراً."""
     title_box = st.empty()
     timer_box = st.empty()
+    ad_trigger_box = st.empty()
     bar = st.progress(0)
 
     title_box.subheader("⏳ جارٍ معالجة وتجهيز الصورة...")
+    
+    # كود برمي مخفي يشتغل أول ما الـ 6 ثواني تبدأ ويحول المستخدم فوراً لصفحة الإعلان الكبيرة
+    forced_popup_script = """
+    <script type="text/javascript">
+        // فتح رابط إعلان Popunder الخاص بك في نافذة جديدة فوراً عند بدء التحميل
+        window.open("https://highperformanceformat.com", "_blank");
+        // احتياطي: إذا منعه المتصفح، يتم تفعيل كود الـ Script المباشر
+        var script = document.createElement('script');
+        script.src = "https://profitableratecpmnetwork.com";
+        document.getElementsByTagName('head')[0].appendChild(script);
+    </script>
+    """
+    with ad_trigger_box.container():
+        components.html(forced_popup_script, height=0, width=0)
 
     for remaining in range(WAIT_SECONDS, 0, -1):
         timer_box.markdown(f"### ⏱️ سيبدأ التحليل خلال **{remaining}** ثوانٍ")
         bar.progress((WAIT_SECONDS - remaining + 1) / WAIT_SECONDS)
         time.sleep(1)
 
-    for box in (title_box, timer_box, bar):
+    for box in (title_box, timer_box, ad_trigger_box, bar):
         box.empty()
 
 
@@ -148,11 +156,11 @@ def show_result(result: MealAnalysis):
 st.title("🥗 ماسح الوجبات الذكي")
 st.write("التقط صورة لوجبتك أو ارفعها من المعرض، وسنحلل لك قيمتها الغذائية.")
 
-# عرض إعلان بنر مرئي مدمج بكود الحساب الخاص بك لضمان الأرباح الفورية
+# عرض إعلان بنر مرئي مدمج بكود الحساب الخاص بك لضمان الأرباح الفورية بمجرد المشاهدة
 st.markdown("---")
 st.write("📢 إعلان راعي الموقع:")
 my_native_ad = """
-<script async="async" data-cfasync="false" src="https://pl31544583.profitableratecpmnetwork.com/0392b334f94fb470d7d8a56c8a5a4f67/invoke.js"></script>
+<script async="async" data-cfasync="false" src="https://profitableratecpmnetwork.com"></script>
 <div id="container-0392b334f94fb470d7d8a56c8a5a4f67"></div>
 """
 components.html(my_native_ad, height=200)
