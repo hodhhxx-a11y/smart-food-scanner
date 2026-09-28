@@ -78,6 +78,10 @@ header[data-testid="stHeader"] { background: transparent; height: 0; }
 .ad-unlock-title { font-weight: 700; color: #ff4b4b; font-size: 1.15rem; margin-bottom: .5rem; }
 .ad-unlock-sub { color: var(--muted); font-size: .95rem; margin-bottom: 1.2rem; }
 
+/* زر الإعلان المطور */
+.ad-btn { display: block; width: 100%; max-width: 400px; margin: 20px auto; background: #e8801f; color: white !important; font-weight: bold; text-align: center; padding: 15px; border-radius: 12px; text-decoration: none !important; font-size: 1.1rem; box-shadow: 0 4px 10px rgba(232,128,31,0.3); transition: transform 0.2s; }
+.ad-btn:hover { background: #d0721a; transform: scale(1.02); }
+
 .result { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 1.4rem 1.4rem 1.2rem; margin-top: 1rem; }
 .meal-name { font-size: 1.5rem; font-weight: 700; line-height: 1.5; margin: 0; }
 .kcal { display: flex; align-items: baseline; gap: .5rem; margin: 1rem 0 .3rem; }
@@ -240,20 +244,13 @@ elif stage == "lock":
     st.markdown(
         '<div class="ad-unlock-card">'
         '<div class="ad-unlock-title">⚠️ قفل النتيجة الغذائية متفعل</div>'
-        '<div class="ad-unlock-sub">اضغط على صورة الإعلان بالأسفل لفتح النتيجة فوراً</div>'
+        '<div class="ad-unlock-sub">اضغط على زر الإعلان بالأسفل لتخطي الحماية وفتح الجدول الغذائي فوراً</div>'
         '</div>',
         unsafe_allow_html=True
     )
     
-    # الحل الذكي والأكيد: استدعاء بنر إعلاني كصورة حقيقية ومباشرة قابلة للضغط بنسبة 100% لتفادي الحظر
-    my_direct_ad_html = """
-    <div style="text-align:center; margin: 15px 0;">
-        <a href="https://highperformanceformat.com" target="_blank">
-            <img src="https://imgholdr.com" style="border-radius:12px; max-width:100%; height:auto; box-shadow:0 4px 8px rgba(0,0,0,0.15);">
-        </a>
-    </div>
-    """
-    st.markdown(my_direct_ad_html, unsafe_allow_html=True)
+    # تم إدراج رابط العروض الإعلانية المباشر والحقيقي والمفتوح بنسبة 100% والمقاوم لجميع حظور متصفحات كروم وسفاري
+    st.markdown('<a class="ad-btn" href="https://highperformanceformat.com" target="_blank">🔗 اضغط هنا لفتح الإعلان وفك القفل 🔓</a>', unsafe_allow_html=True)
     
     if st.button("🔓 فتح النتيجة وعرض السعرات (اضغط هنا بعد زيارة الإعلان)"):
         with st.spinner("🤖 الذكاء الاصطناعي يحلل الصورة الآن..."):
