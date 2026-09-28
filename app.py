@@ -182,7 +182,6 @@ PROMPT = """أنت خبير تغذية. حلل صورة الوجبة المرف�
 # ----------------------------------------------------------------------------
 @st.cache_resource
 def get_client() -> genai.Client:
-    # المفتاح يُقرأ من Streamlit Secrets ولا يُكتب داخل الكود
     return genai.Client(api_key=st.secrets["GEMINI_API_KEY"])
 
 
@@ -195,7 +194,7 @@ def prepare_image(image_bytes: bytes) -> bytes:
 
 
 def analyze_meal(image_bytes: bytes) -> MealAnalysis:
-    client = get_client(load_api_key())
+    client = get_client()
     max_retries = 3
     for attempt in range(max_retries):
         try:
