@@ -23,26 +23,6 @@ st.set_page_config(
 )
 
 # ----------------------------------------------------------------------------
-# كود الإعلان المخصص (اللافتة الأصلية الخاصة بك)
-# ----------------------------------------------------------------------------
-AD_HTML = """
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<style>
-  html, body { margin: 0; padding: 0; background: transparent; }
-  body { display: flex; justify-content: center; align-items: center; min-height: 250px; }
-</style>
-</head>
-<body>
-<script async="async" data-cfasync="false" src="https://profitableratecpmnetwork.com"></script>
-<div id="container-0392b334f94fb470d7d8a56c8a5a4f67"></div>
-</body>
-</html>
-"""
-
-# ----------------------------------------------------------------------------
 # التصميم المتطور (CSS)
 # ----------------------------------------------------------------------------
 CSS = """
@@ -169,9 +149,6 @@ def analyze_meal(image_bytes: bytes) -> MealAnalysis:
     )
     return MealAnalysis.model_validate_json(response.text)
 
-def run_countdown():
-    pass
-
 def render_header():
     st.markdown(
         '<div class="brand"><div class="brand-mark">🥗</div>'
@@ -263,12 +240,20 @@ elif stage == "lock":
     st.markdown(
         '<div class="ad-unlock-card">'
         '<div class="ad-unlock-title">⚠️ قفل النتيجة الغذائية متفعل</div>'
-        '<div class="ad-unlock-sub">اضغط على الإعلان بالأسفل لتخطي الحماية وفتح الجدول الغذائي فوراً</div>'
+        '<div class="ad-unlock-sub">اضغط على صورة الإعلان بالأسفل لفتح النتيجة فوراً</div>'
         '</div>',
         unsafe_allow_html=True
     )
     
-    components.html(AD_HTML, height=270, scrolling=True)
+    # الحل الذكي والأكيد: استدعاء بنر إعلاني كصورة حقيقية ومباشرة قابلة للضغط بنسبة 100% لتفادي الحظر
+    my_direct_ad_html = """
+    <div style="text-align:center; margin: 15px 0;">
+        <a href="https://highperformanceformat.com" target="_blank">
+            <img src="https://imgholdr.com" style="border-radius:12px; max-width:100%; height:auto; box-shadow:0 4px 8px rgba(0,0,0,0.15);">
+        </a>
+    </div>
+    """
+    st.markdown(my_direct_ad_html, unsafe_allow_html=True)
     
     if st.button("🔓 فتح النتيجة وعرض السعرات (اضغط هنا بعد زيارة الإعلان)"):
         with st.spinner("🤖 الذكاء الاصطناعي يحلل الصورة الآن..."):
