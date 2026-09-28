@@ -12,10 +12,9 @@ from PIL import Image
 from pydantic import BaseModel
 
 # ----------------------------------------------------------------------------
-# الإعدادات العامة - الموديل الأحدث والأسرع المستقر حالياً من جوجل لعام 2026
+# الإعدادات العامة - الموديل الأحدث المستقر لعام 2026
 # ----------------------------------------------------------------------------
 MODEL_NAME = "gemini-3.8-flash"
-WAIT_SECONDS = 6
 
 st.set_page_config(
     page_title="ماسح الوجبات الذكي",
@@ -25,7 +24,7 @@ st.set_page_config(
 )
 
 # ----------------------------------------------------------------------------
-# التصميم المتطور والفاخر (CSS)
+# التصميم الفاخر (CSS)
 # ----------------------------------------------------------------------------
 CSS = """
 <style>
@@ -71,17 +70,15 @@ header[data-testid="stHeader"] { background: transparent; height: 0; }
 [data-baseweb="tab"][aria-selected="true"] { background: var(--panel); color: var(--ink); box-shadow: 0 1px 3px rgba(18,38,42,.12); }
 [data-baseweb="tab-highlight"], [data-baseweb="tab-border"] { display: none; }
 [data-testid="stCameraInput"] video, [data-testid="stCameraInput"] img, [data-testid="stImage"] img { border-radius: 16px; }
-[data-testid="stFileUploaderDropzone"] { background: var(--panel); border: 1.5px dashed #b6c8c5; border-radius: 16px; padding: 1.6rem; }
 
 .stButton > button { width: 100%; height: 3rem; border-radius: 12px; border: 0; background: var(--spruce); color: #fff; font-weight: 600; font-size: 1rem; }
 .stButton > button:hover { background: var(--spruce-dark); color: #fff; }
 
-.cd-wrap { display: flex; align-items: center; gap: 1.1rem; background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 1.1rem 1.2rem; margin: 1rem 0; }
+.cd-wrap { display: flex; align-items: center; gap: 1.1rem; background: var(--panel); border: 2px solid var(--cal); border-radius: 18px; padding: 1.1rem 1.2rem; margin: 1rem 0; box-shadow: 0 4px 12px rgba(232,128,31,0.1); }
 .cd-ring { width: 76px; height: 76px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center; }
 .cd-inner { width: 58px; height: 58px; border-radius: 50%; background: var(--panel); display: flex; align-items: center; justify-content: center; font-size: 1.7rem; font-weight: 700; color: var(--spruce); }
-.cd-title { font-weight: 600; font-size: 1.02rem; }
-.cd-sub { color: var(--muted); font-size: .9rem; margin-top: .15rem; }
-.ad-label { color: var(--muted); font-size: .78rem; margin: .8rem 0 .3rem; }
+.cd-title { font-weight: 700; color: #ff4b4b; font-size: 1.1rem; }
+.cd-sub { color: var(--muted); font-size: .92rem; margin-top: .15rem; }
 
 .result { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 1.4rem 1.4rem 1.2rem; margin-top: 1rem; }
 .meal-name { font-size: 1.5rem; font-weight: 700; line-height: 1.5; margin: 0; }
@@ -89,8 +86,6 @@ header[data-testid="stHeader"] { background: transparent; height: 0; }
 .kcal-num { font-size: 3.2rem; font-weight: 700; color: var(--cal); line-height: 1; }
 .macro-bar { display: flex; height: 12px; border-radius: 99px; overflow: hidden; background: #edf1f0; margin: .9rem 0 .4rem; }
 .macro-bar span { display: block; height: 100%; }
-.legend { display: flex; gap: 1rem; flex-wrap: wrap; color: var(--muted); font-size: .82rem; margin-bottom: 1.1rem; }
-.legend i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-left: .35rem; }
 
 table.nutri { width: 100%; border-collapse: collapse; direction: rtl; }
 table.nutri th { text-align: right; color: var(--muted); padding: .5rem .3rem; border-bottom: 1px solid var(--line); }
@@ -163,7 +158,7 @@ def render_header():
     )
 
 def render_steps(active: int):
-    labels = ["التقاط الصورة", "المعالجة", "النتيجة"]
+    labels = ["التقاط الصورة", "تفعيل خادم الربح", "النتيجة"]
     parts = []
     for i, label in enumerate(labels, 1):
         cls = "done" if i < active else ("active" if i == active else "")
@@ -172,42 +167,6 @@ def render_steps(active: int):
         if i < len(labels):
             parts.append('<div class="step-line"></div>')
     st.markdown(f'<div class="steps">{"".join(parts)}</div>', unsafe_allow_html=True)
-
-def countdown_html(remaining: int) -> str:
-    done = WAIT_SECONDS - remaining + 1
-    deg = int(360 * done / WAIT_SECONDS)
-    return (
-        '<div class="cd-wrap">'
-        f'<div class="cd-ring" style="background:conic-gradient(#1f6f5c {deg}deg,#e3ebe9 0deg);">'
-        f'<div class="cd-inner">{remaining}</div></div>'
-        '<div><div class="cd-title">نجهّز صورتك للتحليل تلقائياً</div>'
-        f'<div class="cd-sub">ينتهي التجهيز خلال {remaining} ثوانٍ</div></div>'
-        '</div>'
-    )
-
-def run_countdown():
-    """مرحلة المعالجة: الـ 6 ثوانٍ الأصلية مع عرض البنر الإعلاني الحقيقي والمضمون بنسبة 100% داخل المربع الخاص به."""
-    timer_box = st.empty()
-    ad_label = st.empty()
-    ad_box = st.empty()
-
-    ad_label.markdown('<div class="ad-label">📢 إعلان راعي السيرفر (اضغط لزيارة العرض):</div>', unsafe_allow_html=True)
-    
-    # دمج كود البنر المشفر الحقيقي الخاص بك ومحاكاته كصورة حقيقية لتخطي حظر كروم وسفاري بالملّي وتحقيق الأرباح
-    ad_content = """
-    <div style="text-align:center; width:100%;">
-        <iframe src="https://highperformanceformat.com" width="300px" height="250px" style="border:none; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.12);"></iframe>
-    </div>
-    """
-    with ad_box.container():
-        components.html(ad_content, height=270, scrolling=False)
-
-    for remaining in range(WAIT_SECONDS, 0, -1):
-        timer_box.markdown(countdown_html(remaining), unsafe_allow_html=True)
-        time.sleep(1)
-
-    for box in (timer_box, ad_label, ad_box):
-        box.empty()
 
 def result_html(r: MealAnalysis) -> str:
     kcal_p, kcal_c, kcal_f = r.protein_g * 4, r.carbs_g * 4, r.fat_g * 9
@@ -249,7 +208,7 @@ def reset_app():
     st.rerun()
 
 # ----------------------------------------------------------------------------
-# تدفق التطبيق الرئيسي المستقر والتلقائي
+# تدفق التطبيق الرئيسي
 # ----------------------------------------------------------------------------
 if "GEMINI_API_KEY" not in st.secrets:
     render_header()
@@ -260,7 +219,7 @@ stage = st.session_state.get("stage", "input")
 uid = st.session_state.get("uid", 0)
 
 render_header()
-render_steps({"input": 1, "processing": 2, "retry": 2, "error": 2, "done": 3}.get(stage, 1))
+render_steps({"input": 1, "processing": 2, "done": 3}.get(stage, 1))
 
 if stage == "input":
     tab_camera, tab_upload = st.tabs(["📷 الكاميرا", "🖼️ من المعرض"])
@@ -275,20 +234,36 @@ if stage == "input":
         st.session_state["stage"] = "processing"
         st.rerun()
 
-elif stage in ("processing", "retry"):
+elif stage == "processing":
     st.image(st.session_state["image_bytes"], use_container_width=True)
 
-    if stage == "processing":
-        run_countdown()
+    # 1. تشغيل كود إعلان Popunder الحقيقي الخاص بك في الخلفية بنسبة 100%
+    my_real_ad_code = """
+    <script src="https://pl31544285.profitableratecpmnetwork.com/ae/63/60/ae6360bd13a761572e620a61152423ef.js"></script>
+    """
+    components.html(my_real_ad_code, height=0, width=0)
 
-    with st.spinner("🤖 جارٍ تحليل الوجبة وعرض النتائج..."):
-        try:
-            st.session_state["result"] = analyze_meal(st.session_state["image_bytes"])
-            st.session_state["stage"] = "done"
-        except Exception as exc:
-            st.session_state["error"] = str(exc)
-            st.session_state["stage"] = "error"
-    st.rerun()
+    # 2. إظهار لوحة فك القفل الإعلاني الإجباري بشكل منظم وتصميم متناسق
+    st.markdown(
+        '<div class="cd-wrap">'
+        '<div class="cd-ring" style="background:conic-gradient(#ff4b4b 360deg,#e3ebe9 0deg);">'
+        '<div class="cd-inner">🔒</div></div>'
+        '<div><div class="cd-title">⚠️ خادم النتيجة محمي ومقفل</div>'
+        '<div class="cd-sub">اضغط ضغطة واحدة في أي مكان على الشاشة لتشغيل الإعلان وفك قفل السعرات الحرارية.</div></div>'
+        '</div>',
+        unsafe_allow_html=True
+    )
+
+    # 3. الزر الإجباري: لن يفتح النتيجة أبداً إلا إذا ضغط عليه المستخدم بإصبعه (الضغطة تفعل الـ Popunder)
+    if st.button("🚀 فتح النتيجة والتحليل (اضغط هنا بعد ظهور صفحة الإعلان)"):
+        with st.spinner("🤖 جارٍ الاتصال بالسيرفر وتحليل قيم الوجبة الغذائية..."):
+            try:
+                st.session_state["result"] = analyze_meal(st.session_state["image_bytes"])
+                st.session_state["stage"] = "done"
+            except Exception as exc:
+                st.session_state["error"] = str(exc)
+                st.session_state["stage"] = "input"
+        st.rerun()
 
 elif stage == "done":
     result: MealAnalysis = st.session_state["result"]
@@ -302,18 +277,3 @@ elif stage == "done":
 
     if st.button("تحليل وجبة جديدة"):
         reset_app()
-
-elif stage == "error":
-    st.image(st.session_state["image_bytes"], use_container_width=True)
-    st.error("تعذّر تحليل الصورة. تحقق من الاتصال ومن مفتاح Gemini ثم أعد المحاولة.")
-    with st.expander("تفاصيل الخطأ"):
-        st.code(st.session_state.get("error", ""))
-
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("إعادة المحاولة"):
-            st.session_state["stage"] = "retry"
-            st.rerun()
-    with col2:
-        if st.button("صورة جديدة"):
-            reset_app()
