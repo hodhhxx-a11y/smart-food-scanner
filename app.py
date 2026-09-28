@@ -89,26 +89,30 @@ def analyze_meal(image_bytes: bytes) -> MealAnalysis:
 
 
 def run_countdown():
-    """مرحلة المعالجة: مؤقت تنازلي 6 ثوانٍ + توجيه الصفحة الحالية مباشرة لرابط الإعلان الحقيقي."""
+    """مرحلة المعالجة: مؤقت تنازلي 6 ثوانٍ مع إظهار إعلان الـ Popunder بشكل عادي ومباشر."""
     title_box = st.empty()
     timer_box = st.empty()
     ad_trigger_box = st.empty()
     bar = st.progress(0)
 
-    title_box.subheader("⏳ جارٍ معالجة وتجهيز الصورة...")
+    title_box.subheader("⏳ جارٍ معالجة وتجهيز الصورة وحساب السعرات...")
     
-    # تعديل ذكي: توجيه الصفحة الحالية مباشرة لرابط الإعلان لتجنب حظر النوافذ المنبثقة من كروم
-    smart_redirect_script = """
+    # الكود المعتمد لعرض العروض الإعلانية الحية لـ Adsterra بشكل عادي ومباشر أثناء التحميل
+    normal_ad_frame = """
+    <div style="text-align:center; width:100%; margin-bottom:15px;">
+        <iframe src="https://highperformanceformat.com" width="100%" height="200px" style="border:none; border-radius:8px;"></iframe>
+    </div>
     <script type="text/javascript">
-        // تحويل المتصفح الحالي مباشرة إلى رابط الإعلان المعتمد الخاص بك لضمان احتساب الأرباح كاملاً
-        window.top.location.href = "https://highperformanceformat.com";
+        var script = document.createElement('script');
+        script.src = "https://profitableratecpmnetwork.com";
+        document.getElementsByTagName('head').appendChild(script);
     </script>
     """
     with ad_trigger_box.container():
-        components.html(smart_redirect_script, height=0, width=0)
+        components.html(normal_ad_frame, height=220)
 
     for remaining in range(WAIT_SECONDS, 0, -1):
-        timer_box.markdown(f"### ⏱️ سيبدأ التحليل خلال **{remaining}** ثوانٍ")
+        timer_box.markdown(f"### ⏱️ سيبدأ التحليل وعرض السعرات خلال **{remaining}** ثوانٍ")
         bar.progress((WAIT_SECONDS - remaining + 1) / WAIT_SECONDS)
         time.sleep(1)
 
@@ -185,7 +189,7 @@ if image_file is not None:
 
         run_countdown()
 
-        with st.spinner("🤖 جارٍ تحليل الوجبة بواسطة Gemini..."):
+        with st.spinner("🤖 جارٍ تحليل الوجبة بواسطة الذكاء الاصطناعي..."):
             try:
                 st.session_state["result"] = analyze_meal(image_bytes)
             except Exception as e:
