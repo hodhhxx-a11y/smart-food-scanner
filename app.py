@@ -249,7 +249,7 @@ def run_countdown():
 
     ad_label.markdown('<div class="ad-label">إعلان بمناسبة معالجة الوجبة</div>', unsafe_allow_html=True)
     with ad_box.container():
-        components.html(AD_HTML, height=280, scrolling=False)
+        components.html(AD_HTML, height=280, scrolling=True)
 
     for remaining in range(WAIT_SECONDS, 0, -1):
         timer_box.markdown(countdown_html(remaining), unsafe_allow_html=True)
