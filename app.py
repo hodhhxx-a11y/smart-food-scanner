@@ -13,8 +13,7 @@ from pydantic import BaseModel
 # ----------------------------------------------------------------------------
 # الإعدادات العامة
 # ----------------------------------------------------------------------------
-# تم التعديل إلى النموذج المستقر والمعتمد
-MODEL_NAME = "gemini-2.5-flash" 
+MODEL_NAME = "gemini-2.5-flash"
 WAIT_SECONDS = 6
 
 st.set_page_config(
@@ -38,8 +37,7 @@ AD_HTML = """
 </style>
 </head>
 <body>
-<script async="async" data-cfasync="false" src="https://profitableratecpmnetwork.com"></script>
-<div id="container-0392b334f94fb470d7d8a56c8a5a4f67"></div>
+<script src="https://pl31544285.profitableratecpmnetwork.com/ae/63/60/ae6360bd13a761572e620a61152423ef.js"></script>
 </body>
 </html>
 """
@@ -49,7 +47,7 @@ AD_HTML = """
 # ----------------------------------------------------------------------------
 CSS = """
 <style>
-@import url('https://googleapis.com');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap');
 
 :root {
   --ink: #12262a;
@@ -176,11 +174,14 @@ PROMPT = """أنت خبير تغذية. حلل صورة الوجبة المرف�
 - carbs_g: الكربوهيدرات بالجرام.
 - health_tip: نصيحة صحية سريعة في جملة أو جملتين بالعربية.
 هذه تقديرات تقريبية."""
+
+
 # ----------------------------------------------------------------------------
 # دوال مساعدة
 # ----------------------------------------------------------------------------
 @st.cache_resource
 def get_client() -> genai.Client:
+    # المفتاح يُقرأ من Streamlit Secrets ولا يُكتب داخل الكود
     return genai.Client(api_key=st.secrets["GEMINI_API_KEY"])
 
 
@@ -193,11 +194,10 @@ def prepare_image(image_bytes: bytes) -> bytes:
 
 
 def analyze_meal(image_bytes: bytes) -> MealAnalysis:
-    # تم تعديل الـ contents والـ config بالكامل ليتوافق مع الـ SDK الجديد بدون أخطاء
     response = get_client().models.generate_content(
         model=MODEL_NAME,
         contents=[
-            {"mime_type": "image/jpeg", "data": prepare_image(image_bytes)},
+            types.Part.from_bytes(data=prepare_image(image_bytes), mime_type="image/jpeg"),
             PROMPT,
         ],
         config=types.GenerateContentConfig(
