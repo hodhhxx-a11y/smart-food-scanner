@@ -14,7 +14,8 @@ from pydantic import BaseModel
 # =============================================================================
 # الإعدادات
 # =============================================================================
-MODEL_NAME = "gemini-2.5-flash"
+MODEL_NAME = "gemini-3.8-flash
+"
 WAIT_SECONDS = 6
 
 st.set_page_config(
