@@ -215,8 +215,7 @@ def analyze_meal(image_bytes: bytes) -> MealAnalysis:
         except Exception as e:
             if attempt == max_retries - 1:
                 raise e
-            time.sleep(2) # ينتظر ثواني قليلة ويعيد المحاولة لو السيرفر مشغول
-
+            time.sleep(2)
 
 
 def render_header():
